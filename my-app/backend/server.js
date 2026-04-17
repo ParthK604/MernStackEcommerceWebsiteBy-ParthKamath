@@ -11,16 +11,16 @@ import productRoutes from "./Routes/productroutes.js";
 
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.use(cors({
-  origin:"http://localhost:5173",
-  credentials:true
+  origin: process.env.FRONTEND_URL,
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api/auth",authRoutes);
-app.use("/api/orders",orderRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
@@ -28,10 +28,10 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.log(" MongoDB Connection Error:", err));
 
 
-console.log("JWT_SECRET from server:", process.env.JWT_SECRET);
 
 
-  app.get('/', (req, res) => {
+
+app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 

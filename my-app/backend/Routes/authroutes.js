@@ -1,10 +1,10 @@
 import express from "express";
-import User from "../Models/User.js";
-import { handlelogin,handlesignup } from "../controller/authcontroller.js";
+import User from "../models/User.js";
+import { handlelogin, handlesignup } from "../controller/authcontroller.js";
 import authmiddleware from "../middleware/authmiddleware.js";
-const router=express.Router();
-router.post("/signup",handlesignup);
-router.post("/login",handlelogin);
+const router = express.Router();
+router.post("/signup", handlesignup);
+router.post("/login", handlelogin);
 router.get("/me", authmiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-pass -__v");
@@ -15,8 +15,8 @@ router.get("/me", authmiddleware, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-router.post("/logout",(req,res)=>{
+router.post("/logout", (req, res) => {
   res.clearCookie("token");
-  res.status(200).json({message:"logout successfull"});
+  res.status(200).json({ message: "logout successfull" });
 })
 export default router;
