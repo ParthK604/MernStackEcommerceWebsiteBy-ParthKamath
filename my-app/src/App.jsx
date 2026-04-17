@@ -2,9 +2,10 @@ import { useState } from 'react'
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Products from './pages/products';
+import Products from './pages/Products';
 import Success from './pages/Success';
 import Items from './pages/Items';
+import MyOrders from './pages/MyOrders';
 import { Routes,Route } from 'react-router-dom';
 import AuthLayout from './components/AuthLayout';
 import AppLayout from './components/AppLayout';
@@ -25,6 +26,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path='/items' element={<Items/>}/>
         <Route path='/finalsuccess' element={<FinalPage/>}/>
+        <Route path='/myorders' element={<MyOrders/>}/>
       </Route>
 
       

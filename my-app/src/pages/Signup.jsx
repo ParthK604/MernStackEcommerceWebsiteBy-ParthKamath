@@ -1,6 +1,5 @@
-import Login from "./Login";
-import {useForm} from "react-hook-form"
-import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const {
@@ -32,194 +31,192 @@ export default function Signup() {
     }
   };
    
-  
   return (
-    <>
-     
-            <form
-              className="bg-purple-900 mx-auto w-[45vw] mt-5 h-fit flex flex-col gap-3 p-10 font-bold text-white text-2xl rounded-2xl"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="mx-auto">
-                <span className="font-extrabold text-5xl">Sign Up</span>
-              </div>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-white w-full max-w-2xl p-6 sm:p-10 rounded-2xl shadow-xl flex flex-col gap-8">
+        <div className="text-center">
+          <h2 className="font-extrabold text-4xl text-gray-900 tracking-tight">Create Account</h2>
+          <p className="mt-2 text-gray-600 font-medium">Join us to start shopping today!</p>
+        </div>
 
-              
-              <div className="mt-8">
-                <span className="mr-4">Enter Your Last Name :</span>
-                <input
-                  type="text"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Last Name"
-                  {...register("lname", {
-                    required: { value: true, message: "This Field is required" },
-                    maxLength: { value: 20, message: "Name Limit Exceeded" },
-                  })}
-                />
-                {errors.lname && <p>{errors.lname.message}</p>}
-              </div>
+        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="First Name"
+                {...register("fname", {
+                  required: { value: true, message: "Required" },
+                  maxLength: { value: 20, message: "Limit Exceeded" },
+                })}
+              />
+              {errors.fname && <p className="text-red-500 text-sm mt-1">{errors.fname.message}</p>}
+            </div>
 
-             
-              <div className="mt-8">
-                <span className="mr-4">Enter Your First Name :</span>
-                <input
-                  type="text"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="First Name"
-                  {...register("fname", {
-                    required: { value: true, message: "This Field is required" },
-                    maxLength: { value: 20, message: "Name Limit Exceeded" },
-                  })}
-                />
-                {errors.fname && <p>{errors.fname.message}</p>}
-              </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="Last Name"
+                {...register("lname", {
+                  required: { value: true, message: "Required" },
+                  maxLength: { value: 20, message: "Limit Exceeded" },
+                })}
+              />
+              {errors.lname && <p className="text-red-500 text-sm mt-1">{errors.lname.message}</p>}
+            </div>
+          </div>
 
-             
-              <div className="mt-8">
-                <span className="mr-4">Enter Your Email (optional) :</span>
-                <input
-                  type="email"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Email"
-                  {...register("email", {
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Enter a valid email address",
-                    },
-                  })}
-                />
-                {errors.email && <p className="text-sm">{errors.email.message}</p>}
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="Unique username"
+                {...register("usern", {
+                  required: { value: true, message: "Required" },
+                  maxLength: { value: 12, message: "Limit Exceeded" },
+                })}
+              />
+              {errors.usern && <p className="text-red-500 text-sm mt-1">{errors.usern.message}</p>}
+            </div>
 
-             
-              <div className="mt-8">
-                <span className="mr-4">Enter Your Phone Number :</span>
-                <input
-                  type="number"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Phone Number"
-                  {...register("phno", {
-                    required: { value: true, message: "This Field is required" },
-                    minLength: { value: 10, message: "Phone number invalid" },
-                    maxLength: { value: 10, message: "Phone number invalid" },
-                    pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: "No alphabets allowed",
-                    },
-                  })}
-                />
-                {errors.phno && <p>{errors.phno.message}</p>}
-              </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Email (Optional)</label>
+              <input
+                type="email"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="Email Address"
+                {...register("email", {
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email",
+                  },
+                })}
+              />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            </div>
+          </div>
 
-           
-              <div className="mt-8">
-                <span className="mr-4">Set Your Password :</span>
-                <input
-                  type="password"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Password"
-                  {...register("pass", {
-                    required: { value: true, message: "This Field is required" },
-                    minLength: {
-                      value: 8,
-                      message: "Password should be greater than 8 characters",
-                    },
-                    maxLength: {
-                      value: 12,
-                      message: "Password should be less than 12 characters",
-                    },
-                  })}
-                />
-                {errors.pass && <p>{errors.pass.message}</p>}
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="sm:col-span-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Age</label>
+              <input
+                type="number"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="18+"
+                {...register("age", {
+                  required: { value: true, message: "Required" },
+                  min: { value: 18, message: "Must be 18+" },
+                  max: { value: 99, message: "Limit 99" },
+                })}
+              />
+              {errors.age && <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>}
+            </div>
 
-         
-              <div className="mt-8">
-                <span className="mr-4">Confirm Password :</span>
-                <input
-                  type="password"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Confirm Password"
-                  {...register("cfpass", {
-                    required: { value: true, message: "This Field is required" },
-                    validate: (value) =>
-                      value === password || "Passwords do not match",
-                  })}
-                />
-                {errors.cfpass && <p>{errors.cfpass.message}</p>}
-              </div>
-
-            
-              <div className="mt-8">
-                <span className="mr-4">Select Your Gender</span>
-                <select {...register("gender")} className="border text-black rounded-lg p-1">
-                  <option value="male">male</option>
-                  <option value="female">female</option>
-                  <option value="other">other</option>
-                </select>
-              </div>
-
-              
-              <div className="mt-8">
-                <span className="mr-4">Enter Your Age</span>
-                <input
-                  type="number"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Age"
-                  {...register("age", {
-                    required: { value: true, message: "This field is required" },
-                    min: { value: 18, message: "You must be at least 18 years old" },
-                    max: { value: 99, message: "Age cannot exceed 99" },
-                  })}
-                />
-                {errors.age && <p>{errors.age.message}</p>}
-              </div>
-
-              
-              <div className="mt-8">
-                <span className="mr-4">Enter Your Username on this website:</span>
-                <input
-                  type="text"
-                  className="bg-pink-950 rounded-xl font-black"
-                  placeholder="Username"
-                  {...register("usern", {
-                    required: { value: true, message: "This Field is required" },
-                    maxLength: { value: 12, message: "Name Limit Exceeded" },
-                  })}
-                />
-                {errors.usern && <p>{errors.usern.message}</p>}
-              </div>
-
-              
-              <div className="mt-8">
-                <input
-                  type="checkbox"
-                  {...register("terms", {
-                    required: { value: true, message: "This field is required" },
-                  })}
-                />
-                <span className="ml-2">Do you accept the terms and conditions</span>
-                {errors.terms && <p className="text-red-400">{errors.terms.message}</p>}
-              </div>
-
-              <button
-                type="submit"
-                disabled={!checked}
-                className={`cursor-pointer bg-white text-purple-900 p-2 rounded-xl mt-5 hover:bg-purple-300 transition ${
-                  !checked ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+            <div className="sm:col-span-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Gender</label>
+              <select 
+                {...register("gender")} 
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm appearance-none"
               >
-                Sign Up
-              </button>
-              
-            
-              <div>
-                or Already Have An Account ?
-              </div>
-              <button onClick={()=>navigate("/login")} className="cursor-pointer bg-white text-purple-900 p-2 rounded-xl mt-5 hover:bg-purple-300 transition">
-                Login 
-              </button>
-            </form>
-    </>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div className="sm:col-span-1">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+              <input
+                type="number"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="10 Digits"
+                {...register("phno", {
+                  required: { value: true, message: "Required" },
+                  minLength: { value: 10, message: "10 digits required" },
+                  maxLength: { value: 10, message: "10 digits required" },
+                  pattern: { value: /^[0-9]{10}$/, message: "Invalid format" },
+                })}
+              />
+              {errors.phno && <p className="text-red-500 text-sm mt-1">{errors.phno.message}</p>}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="Create Password"
+                {...register("pass", {
+                  required: { value: true, message: "Required" },
+                  minLength: { value: 8, message: "Min 8 chars" },
+                  maxLength: { value: 12, message: "Max 12 chars" },
+                })}
+              />
+              {errors.pass && <p className="text-red-500 text-sm mt-1">{errors.pass.message}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+                placeholder="Confirm Password"
+                {...register("cfpass", {
+                  required: { value: true, message: "Required" },
+                  validate: (value) => value === password || "Passwords do not match",
+                })}
+              />
+              {errors.cfpass && <p className="text-red-500 text-sm mt-1">{errors.cfpass.message}</p>}
+            </div>
+          </div>
+
+          <div className="mt-6 flex items-center pt-2">
+            <input
+              id="terms"
+              type="checkbox"
+              className="w-5 h-5 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2"
+              {...register("terms", {
+                required: { value: true, message: "You must accept the terms" },
+              })}
+            />
+            <label htmlFor="terms" className="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
+              I accept the <a href="#" className="text-indigo-600 hover:underline">Terms and Conditions</a>
+            </label>
+          </div>
+          {errors.terms && <p className="text-red-500 text-sm mt-1">{errors.terms.message}</p>}
+
+          <button
+            type="submit"
+            disabled={!checked}
+            className={`w-full font-bold py-3.5 rounded-xl shadow-md transition-all text-lg mt-6 ${
+              checked 
+                ? "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200" 
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+          >
+            Create Account
+          </button>
+          
+          <div className="text-center pt-4 border-t mt-6">
+            <span className="text-gray-600 text-sm">Already have an account? </span>
+            <button 
+              type="button"
+              onClick={() => navigate("/login")} 
+              className="text-indigo-600 hover:text-indigo-800 font-bold text-sm transition-colors"
+            >
+              Sign In
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

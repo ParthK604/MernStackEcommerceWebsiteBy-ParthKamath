@@ -5,23 +5,39 @@ import Pagination from "../components/Pagination";
 function Products() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const pageSize = 10;
 
   const categories = ["All", "Mobile", "TV", "Refrigerator", "Laptop", "Washing Machine", "Air Conditioner", "Headphones", "Smartwatch"];
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(0);
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      let url = "http://localhost:3000/api/products";
+      let url = "http://localhost:3000/api/products?";
+      const params = new URLSearchParams();
       if (selectedCategory !== "All") {
-        url += `?category=${selectedCategory}`;
+        params.append("category", selectedCategory);
       }
+      if (debouncedSearch) {
+        params.append("search", debouncedSearch);
+      }
+      url += params.toString();
+
       const res = await fetch(url);
       const json = await res.json();
       setProducts(json.products);
     };
     fetchData();
-  }, [selectedCategory]);
+  }, [selectedCategory, debouncedSearch]);
 
   const totalPages = Math.ceil(products.length / pageSize);
   const start = currentPage * pageSize;
@@ -33,6 +49,16 @@ function Products() {
         Welcome to EcomStore, where exceptional quality meets unbeatable convenience.
         Discover a world of carefully selected products, designed to inspire and delight.
         Shop with confidence through our secure platform and let us deliver a superior shopping experience straight to your doorstep!
+      </div>
+
+      <div className="max-w-md mx-auto mb-8">
+        <input 
+          type="text" 
+          placeholder="Search products by title..." 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
       </div>
 
       <div className="flex flex-wrap gap-3 justify-center mb-10">

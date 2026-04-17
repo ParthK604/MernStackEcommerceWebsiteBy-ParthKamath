@@ -1,8 +1,6 @@
-import { useForm, Watch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContexts";
-
-
 
 export default function Login() {
   const {
@@ -11,68 +9,80 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const navigate=useNavigate();
-  const {checkAuth}=useAuth();
-  const onSubmit =async (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const { checkAuth } = useAuth();
+  
+  const onSubmit = async (data) => {
     try {
-      const res=await fetch("http://localhost:3000/api/auth/login",{
-      method:"POST",
-      headers: { "Content-Type": "application/json" },
-      credentials:"include",
-      body: JSON.stringify(data),
-      
+      const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(data),
       });
       if (res.ok) {
         await checkAuth();
         navigate("/items");
       } else {
         alert("passwords dont match");
-        
       }
     } catch (err) {
-      console.error("Error",err);
+      console.error("Error", err);
     }
   };
 
   return (
-    <div className="bg-purple-900 mx-auto w-[45vw] mt-5 h-fit flex flex-col gap-3 p-10 font-bold text-white text-2xl rounded-2xl">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="bg-white w-full max-w-md p-8 sm:p-10 rounded-2xl shadow-xl flex flex-col gap-6">
+        <h2 className="text-3xl font-extrabold text-center text-gray-900 tracking-tight">Login</h2>
         
-        
-        <div className="mt-8">
-          <input
-            type="text"
-            className="bg-pink-950 rounded-xl font-black"
-            placeholder="Username"
-            {...register("loginuser", {
-              required: { value: true, message: "This Field is required" },
-              maxLength: { value: 12, message: "Name Limit Exceeded" },
-            })}
-          />
-          {errors.loginuser && <p>{errors.loginuser.message}</p>}
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+            <input
+              type="text"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+              placeholder="Enter your username"
+              {...register("loginuser", {
+                required: { value: true, message: "This Field is required" },
+                maxLength: { value: 12, message: "Name Limit Exceeded" },
+              })}
+            />
+            {errors.loginuser && <p className="text-red-500 text-sm mt-1">{errors.loginuser.message}</p>}
+          </div>
 
-        <div className="mt-8">
-          <input
-            type="password"
-            className="bg-pink-950 rounded-xl font-black"
-            placeholder="Password"
-            {...register("loginpass", {
-              required: { value: true, message: "This Field is required" },
-            })}
-          />
-          {errors.loginpass && <p>{errors.loginpass.message}</p>}
-        </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+            <input
+              type="password"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm"
+              placeholder="Enter your password"
+              {...register("loginpass", {
+                required: { value: true, message: "This Field is required" },
+              })}
+            />
+            {errors.loginpass && <p className="text-red-500 text-sm mt-1">{errors.loginpass.message}</p>}
+          </div>
 
-        <button type="submit" className="mt-5 bg-white text-purple-900 p-2 rounded-xl cursor-pointer">
-          Login
-        </button>
-
-        
-
-      </form>
-</div>
-
+          <button 
+            type="submit" 
+            className="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200 transition-all shadow-md mt-4 text-lg"
+          >
+            Login
+          </button>
+          
+          <div className="text-center mt-6">
+            <span className="text-gray-600 text-sm">Don't have an account? </span>
+            <button 
+              type="button"
+              onClick={() => navigate("/signup")} 
+              className="text-indigo-600 hover:text-indigo-800 font-bold text-sm transition-colors"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

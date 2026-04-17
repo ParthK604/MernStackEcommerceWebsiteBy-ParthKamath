@@ -118,7 +118,7 @@ function Cart() {
 
         <div className="space-y-4">
           {cart.map((item, idx) => (
-            <CartItem key={idx} title={item.title} price={item.price} quantity={item.quantity} />
+            <CartItem key={item._id} item={item} />
           ))}
         </div>
 

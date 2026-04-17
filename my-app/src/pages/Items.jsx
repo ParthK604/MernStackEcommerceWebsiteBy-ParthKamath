@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 function Items() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const navigate = useNavigate();
   const pageSize = 10;
   const { addToCart } = useCart();
@@ -16,17 +18,31 @@ function Items() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(0);
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      let url = "http://localhost:3000/api/products";
+      let url = "http://localhost:3000/api/products?";
+      const params = new URLSearchParams();
       if (selectedCategory !== "All") {
-        url += `?category=${selectedCategory}`;
+        params.append("category", selectedCategory);
       }
+      if (debouncedSearch) {
+        params.append("search", debouncedSearch);
+      }
+      url += params.toString();
+
       const res = await fetch(url);
       const json = await res.json();
       setProducts(json.products);
     };
     fetchData();
-  }, [selectedCategory]);
+  }, [selectedCategory, debouncedSearch]);
 
   const totalPages = Math.ceil(products.length / pageSize);
   const start = currentPage * pageSize;
@@ -37,13 +53,29 @@ function Items() {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 pt-6">
-        <div className="flex justify-end mb-6">
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mb-6">
+          <button 
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors w-full sm:w-auto text-center" 
+            onClick={() => { navigate('/myorders') }}
+          >
+            My Orders
+          </button>
           <button 
             className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors w-full sm:w-auto text-center" 
             onClick={() => { navigate('/cart') }}
           >
             Go to My Cart
           </button>
+        </div>
+
+        <div className="max-w-md mx-auto mb-8">
+          <input 
+            type="text" 
+            placeholder="Search products by title..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
         </div>
 
         <div className="flex flex-wrap gap-3 justify-center mb-8">
