@@ -3,6 +3,7 @@ import { useCart } from "../contexts/CartContext";
 import CartItem from "../components/CartItem";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+const API = import.meta.env.VITE_API_URL;
 
 function Cart() {
   const { cart, totalPrice } = useCart();
@@ -25,7 +26,7 @@ function Cart() {
 
   const placeOrder = async (formdata, statusMode) => {
     try {
-      const res = await fetch("http://localhost:3000/api/orders", {
+      const res = await fetch(`${API}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -58,7 +59,7 @@ function Cart() {
     }
 
     try {
-      const result = await fetch("http://localhost:3000/api/orders/razorpay", {
+      const result = await fetch(`${API}/api/orders/razorpay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -71,7 +72,7 @@ function Cart() {
       const order = await result.json();
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID, 
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: "INR",
         name: "EcomStore",
@@ -101,8 +102,8 @@ function Cart() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] bg-gray-50">
         <h2 className="text-3xl font-bold text-gray-700 mb-4">Your Cart is Empty</h2>
-        <button 
-          onClick={() => navigate("/")} 
+        <button
+          onClick={() => navigate("/")}
           className="px-8 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-all transform hover:-translate-y-1 font-semibold"
         >
           Start Shopping
@@ -139,16 +140,16 @@ function Cart() {
           {errors.address && <p className="text-red-500 text-sm mt-2">{errors.address.message}</p>}
 
           <div className="mt-8 flex flex-col sm:flex-row gap-5">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={handleSubmit(handleCOD)}
               className="flex-1 bg-white border-2 border-gray-300 text-gray-800 py-4 px-6 rounded-xl font-bold text-lg shadow-sm hover:shadow-md hover:bg-gray-50 transform transition"
             >
               Cash on Delivery (COD)
             </button>
-            
-            <button 
-              type="button" 
+
+            <button
+              type="button"
               onClick={handleSubmit(handleRazorpay)}
               className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform transition hover:-translate-y-1 hover:scale-[1.02]"
             >

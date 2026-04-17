@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+const API = import.meta.env.VITE_API_URL;
+
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -8,7 +10,7 @@ function MyOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/orders/myorders", {
+        const res = await fetch(`${API}/api/orders/myorders`, {
           credentials: "include"
         });
         if (res.ok) {
@@ -62,8 +64,8 @@ function MyOrders() {
                   </div>
                   <div>
                     <span className={`px-4 py-1.5 rounded-full text-sm font-bold shadow-sm ${order.status === 'PLACED' ? 'bg-blue-100 text-blue-700' :
-                        order.status === 'PAID' ? 'bg-green-100 text-green-700' :
-                          'bg-gray-100 text-gray-700'
+                      order.status === 'PAID' ? 'bg-green-100 text-green-700' :
+                        'bg-gray-100 text-gray-700'
                       }`}>
                       {order.status}
                     </span>

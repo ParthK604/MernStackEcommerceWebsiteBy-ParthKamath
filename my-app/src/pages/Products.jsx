@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductsCart from "../components/ProductsCart";
 import Pagination from "../components/Pagination";
+const API = import.meta.env.VITE_API_URL;
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ function Products() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "http://localhost:3000/api/products?";
+      let url = `${API}/api/products?`;
       const params = new URLSearchParams();
       if (selectedCategory !== "All") {
         params.append("category", selectedCategory);
@@ -52,9 +53,9 @@ function Products() {
       </div>
 
       <div className="max-w-md mx-auto mb-8">
-        <input 
-          type="text" 
-          placeholder="Search products by title..." 
+        <input
+          type="text"
+          placeholder="Search products by title..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -78,7 +79,7 @@ function Products() {
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
-    
+
       <div className="flex flex-wrap justify-center gap-6 mt-6">
         {products.slice(start, end).map((p) => (
           <ProductsCart

@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+const API = import.meta.env.VITE_API_URL;
+
 
 export default function Signup() {
   const {
@@ -12,10 +14,10 @@ export default function Signup() {
   const checked = watch("terms", false);
   const navigate = useNavigate();
   const password = watch("pass");
-  
+
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:3000/api/auth/signup", {
+      const res = await fetch(`${API}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -30,7 +32,7 @@ export default function Signup() {
       console.error("Error:", err);
     }
   };
-   
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="bg-white w-full max-w-2xl p-6 sm:p-10 rounded-2xl shadow-xl flex flex-col gap-8">
@@ -120,8 +122,8 @@ export default function Signup() {
 
             <div className="sm:col-span-1">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Gender</label>
-              <select 
-                {...register("gender")} 
+              <select
+                {...register("gender")}
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-gray-900 shadow-sm appearance-none"
               >
                 <option value="male">Male</option>
@@ -196,20 +198,19 @@ export default function Signup() {
           <button
             type="submit"
             disabled={!checked}
-            className={`w-full font-bold py-3.5 rounded-xl shadow-md transition-all text-lg mt-6 ${
-              checked 
-                ? "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200" 
+            className={`w-full font-bold py-3.5 rounded-xl shadow-md transition-all text-lg mt-6 ${checked
+                ? "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             Create Account
           </button>
-          
+
           <div className="text-center pt-4 border-t mt-6">
             <span className="text-gray-600 text-sm">Already have an account? </span>
-            <button 
+            <button
               type="button"
-              onClick={() => navigate("/login")} 
+              onClick={() => navigate("/login")}
               className="text-indigo-600 hover:text-indigo-800 font-bold text-sm transition-colors"
             >
               Sign In

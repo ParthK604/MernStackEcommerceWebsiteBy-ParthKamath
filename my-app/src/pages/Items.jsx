@@ -4,6 +4,8 @@ import Pagination from "../components/Pagination";
 import Navbar from "../components/Navbar";
 import { useCart } from "../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
+const API = import.meta.env.VITE_API_URL;
+
 
 function Items() {
   const [products, setProducts] = useState([]);
@@ -13,7 +15,7 @@ function Items() {
   const navigate = useNavigate();
   const pageSize = 10;
   const { addToCart } = useCart();
-  
+
   const categories = ["All", "Mobile", "TV", "Refrigerator", "Laptop", "Washing Machine", "Air Conditioner", "Headphones", "Smartwatch"];
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -27,7 +29,7 @@ function Items() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "http://localhost:3000/api/products?";
+      let url = `${API}/api/products?`;
       const params = new URLSearchParams();
       if (selectedCategory !== "All") {
         params.append("category", selectedCategory);
@@ -54,14 +56,14 @@ function Items() {
 
       <div className="max-w-7xl mx-auto px-4 pt-6">
         <div className="flex flex-col sm:flex-row justify-end gap-4 mb-6">
-          <button 
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors w-full sm:w-auto text-center" 
+          <button
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors w-full sm:w-auto text-center"
             onClick={() => { navigate('/myorders') }}
           >
             My Orders
           </button>
-          <button 
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors w-full sm:w-auto text-center" 
+          <button
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors w-full sm:w-auto text-center"
             onClick={() => { navigate('/cart') }}
           >
             Go to My Cart
@@ -69,9 +71,9 @@ function Items() {
         </div>
 
         <div className="max-w-md mx-auto mb-8">
-          <input 
-            type="text" 
-            placeholder="Search products by title..." 
+          <input
+            type="text"
+            placeholder="Search products by title..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -89,16 +91,16 @@ function Items() {
             </button>
           ))}
         </div>
-        
+
         <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
         />
-        
+
         <div className="flex flex-wrap justify-center gap-6 mt-8">
           {products.slice(start, end).map((p) => (
-            <ProductsCart 
+            <ProductsCart
               key={p._id || p.id}
               image={p.thumbnail}
               title={p.title}

@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContexts";
+const API = import.meta.env.VITE_API_URL;
+
 
 export default function Login() {
   const {
@@ -11,10 +13,10 @@ export default function Login() {
 
   const navigate = useNavigate();
   const { checkAuth } = useAuth();
-  
+
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
+      const res = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -35,7 +37,7 @@ export default function Login() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="bg-white w-full max-w-md p-8 sm:p-10 rounded-2xl shadow-xl flex flex-col gap-6">
         <h2 className="text-3xl font-extrabold text-center text-gray-900 tracking-tight">Login</h2>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Username</label>
@@ -64,18 +66,18 @@ export default function Login() {
             {errors.loginpass && <p className="text-red-500 text-sm mt-1">{errors.loginpass.message}</p>}
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200 transition-all shadow-md mt-4 text-lg"
           >
             Login
           </button>
-          
+
           <div className="text-center mt-6">
             <span className="text-gray-600 text-sm">Don't have an account? </span>
-            <button 
+            <button
               type="button"
-              onClick={() => navigate("/signup")} 
+              onClick={() => navigate("/signup")}
               className="text-indigo-600 hover:text-indigo-800 font-bold text-sm transition-colors"
             >
               Sign Up
